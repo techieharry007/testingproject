@@ -41,7 +41,6 @@ const BottomStack = ({navigation}) => {
       component={Nearby} 
       initialParams={navigation={navigation}}
       />
-      {/* <Tab.Screen name='Drawer' component={}/> */}
     </Tab.Navigator>
   )
 }

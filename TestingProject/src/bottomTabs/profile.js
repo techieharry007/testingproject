@@ -1,11 +1,13 @@
-import { View, Text, Image,StyleSheet, Pressable,PermissionsAndroid, Modal } from 'react-native'
+import { View, Text, Image,StyleSheet, Pressable,PermissionsAndroid, Modal,BackHandler } from 'react-native'
 import React, { useState,useEffect } from 'react'
 import Header from '../utils/header'
 import ImagePicker from "react-native-image-crop-picker";
+import { useSelector } from 'react-redux';
 
 const Profile = ({navigation},props) => {
   const [profileImg,setProfileImg]=useState("")
   const [isVisible,setIsVisible]=useState(false)
+  const {userData}=useSelector(state=>state.login)
 //requesting camera permission from user
   const requestCameraPermission = async () => {
     if (Platform.OS === "android") {
@@ -74,7 +76,16 @@ const Profile = ({navigation},props) => {
     });
   };
   
-  
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        BackHandler.exitApp();
+        return true;
+      },
+    );
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={{flex:1}}>
         <Header name={"Profile"} navigation={navigation}/>
@@ -88,15 +99,15 @@ const Profile = ({navigation},props) => {
           </View>
           <View style={{flexDirection:"row",justifyContent:"flex-start",alignItems:"center",paddingVertical:10}}>
             <Text style={style.commonTxt}>Name : </Text>
-            <Text style={style.commonTxt}>Harry</Text>
+            <Text style={style.commonTxt}>{userData?.name}</Text>
           </View>
           <View style={{flexDirection:"row",justifyContent:"flex-start",alignItems:"center",paddingVertical:10}}>
             <Text style={style.commonTxt}>Phone : </Text>
-            <Text style={style.commonTxt}>94856222555</Text>
+            <Text style={style.commonTxt}>{userData?.contact}</Text>
           </View>
           <View style={{flexDirection:"row",justifyContent:"flex-start",alignItems:"center",paddingVertical:10}}>
             <Text style={style.commonTxt}>Address : </Text>
-            <Text style={style.commonTxt}>East West</Text>
+            <Text style={style.commonTxt}>{userData?.address}</Text>
           </View>
         </View>
         <Modal visible={isVisible} animationType="slide"

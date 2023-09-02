@@ -1,8 +1,11 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet,BackHandler} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../utils/header';
 import {locationsData} from '../utils/fake';
+import { useSelector } from 'react-redux';
 const Nearby = ({navigation}) => {
+  const {userData}=useSelector(state=>state.login)
+
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
@@ -23,7 +26,7 @@ const Nearby = ({navigation}) => {
   useEffect(() => {
     let arr = [];
     locationsData.forEach((val, i) => {
-      let dist = calculateDistance(lat, long, val.lat, val.long);
+      let dist = calculateDistance(userData.lat, userData.long, val.lat, val.long);
       arr.push({...val, dist1: dist});
     });
     let sortedArr = arr.sort(function (a, b) {
@@ -33,9 +36,11 @@ const Nearby = ({navigation}) => {
     });
     setList(sortedArr);
   }, []);
+
+  
   return (
     <View style={{flex: 1}}>
-      <Header name={'Near By'} navigation={navigation}/>
+      <Header name={'Near By'} navigation={navigation} back={true}/>
       <FlatList
       contentContainerStyle={{paddingVertical:10}}
         data={list.slice(0, 5)}

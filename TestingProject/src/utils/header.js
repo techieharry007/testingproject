@@ -3,7 +3,9 @@ import React from 'react';
 import {Color} from './Colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Header = ({navigation, name}) => {
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Header = ({navigation, name,back}) => {
   return (
     <View
       style={{
@@ -18,7 +20,14 @@ const Header = ({navigation, name}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <MaterialCommunityIcons name="menu" size={25} color={'white'} onPress={()=>navigation.toggleDrawer()}/>
+          {back? <Ionicons
+          name={"chevron-back-sharp"}
+          size={20}
+          color={Color.white}
+          onPress={()=>navigation.goBack()}
+          />:
+          <MaterialCommunityIcons name="menu" size={25} color={'white'} onPress={()=>navigation.toggleDrawer()}/>
+          }
         <Text style={{fontSize: 25, color: 'white'}}>{name}</Text>
         <MaterialCommunityIcons name="menu" size={25} color={Color.theme} />
       </View>

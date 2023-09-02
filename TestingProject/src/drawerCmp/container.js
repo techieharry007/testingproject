@@ -13,8 +13,12 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useDispatch } from 'react-redux';
+import { authToken } from '../store/Authmodule/login_slice';
 const {width, height} = Dimensions.get('window');
 const Container = props => {
+  const dispatch = useDispatch();
+
   return (
     <View>
       <View style={{height: height}}>
@@ -41,7 +45,7 @@ const Container = props => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              // setModal(true);
+              dispatch(authToken({flag: false}));
             }}>
             <View
               style={{

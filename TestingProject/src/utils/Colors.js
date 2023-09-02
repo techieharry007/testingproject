@@ -1,3 +1,4 @@
 export const Color={
-    theme:"dodgerblue"
+    theme:"dodgerblue",
+    white:"#fff"
 }
